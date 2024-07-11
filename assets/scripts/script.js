@@ -155,21 +155,20 @@ inputSearch.addEventListener('input', debounce(() => {
 // FUNCIONALIDADE DE MOSTRAR APENAS FAVORITOS
 const btnMostrarApenasFavoritos = document.querySelector('#favoritos')
 
-btnMostrarApenasFavoritos.addEventListener('change', () => {
+btnMostrarApenasFavoritos.addEventListener('input', () => {
     const filmes = document.querySelectorAll('.lista__filme-item')
 
-    if (btnMostrarApenasFavoritos.checked) {
-        filmes.forEach(filme => {
-            const spanFavorito = filme.querySelector('.filme-favorito')
+    filmes.forEach(filme => {
+        // debugger
+        const spanFavorito = filme.querySelector('.filme-favorito')
+        if (btnMostrarApenasFavoritos.checked) {
             if (spanFavorito.querySelector('i').classList.contains('bi-heart-fill')) {
                 filme.style.display = 'flex'
             } else {
                 filme.style.display = 'none'
             }
-        })
-    } else {
-        filmes.forEach(filme => {
+        } else {
             filme.style.display = 'flex'
-        })
-    }
+        }
+    })
 })
