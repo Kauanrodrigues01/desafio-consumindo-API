@@ -1,17 +1,9 @@
-const debounce = (func, delay) => {
-    let debounceTimer
-    return () => {
-        clearTimeout(debounceTimer)
-        debounceTimer = setTimeout(func, delay)
-    }
-}
-
 const apiKey = 'fa301c088cb970fc7b6370a1a421cd99'
 const apiUrl = 'https://api.themoviedb.org/3'
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/'
 const IMAGE_SIZE = 'w200'
 
-// Função para buscar filmes populares
+
 async function fetchPopularMovies() {
     try {
         const responseAPI = await fetch(`${apiUrl}/movie/popular?api_key=${apiKey}`)
@@ -135,6 +127,14 @@ renderMovies()
 // FUNCIONALIDADE DE PESQUISAR
 const inputSearch = document.querySelector('#search')
 
+const debounce = (func, delay) => {
+    let debounceTimer
+    return () => {
+        clearTimeout(debounceTimer)
+        debounceTimer = setTimeout(func, delay)
+    }
+}
+
 inputSearch.addEventListener('input', debounce(() => {
     const valorPesquisa = inputSearch.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     const filmes = document.querySelectorAll('.lista__filme-item')
@@ -149,4 +149,27 @@ inputSearch.addEventListener('input', debounce(() => {
             filme.style.display = 'none'
         }
     })
-}, 300))
+}, 200)) // milisegundos do setinterval
+
+
+// FUNCIONALIDADE DE MOSTRAR APENAS FAVORITOS
+const btnMostrarApenasFavoritos = document.querySelector('#favoritos')
+
+btnMostrarApenasFavoritos.addEventListener('input', () => {
+    const filmes = document.querySelectorAll('.lista__filme-item')
+
+    if (btnMostrarApenasFavoritos.checked) {
+        filmes.forEach(filme => {
+            const spanFavorito = filme.querySelector('.filme-favorito')
+            if (spanFavorito.querySelector('i').classList.contains('bi-heart-fill')) {
+                filme.style.display = 'flex'
+            } else {
+                filme.style.display = 'none'
+            }
+        })
+    } else {
+        filmes.forEach(filme => {
+            filme.style.display = 'flex'
+        })
+    }
+})
