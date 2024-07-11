@@ -8,7 +8,6 @@
     --font-principal: 'Kumbh Sans', sans-serif;
 }
 
-
 .lista__filme{
     display: flex;
     flex-direction: column !important;

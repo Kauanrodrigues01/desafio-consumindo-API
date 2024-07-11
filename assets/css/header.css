@@ -80,9 +80,6 @@ html, body{
 }
 
 #favoritos{
-    /* appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none; */
     background-color: transparent; 
     border: 1px solid #ccc; 
     border-radius: 3px;

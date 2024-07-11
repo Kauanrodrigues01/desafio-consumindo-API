@@ -3,7 +3,6 @@ const apiUrl = 'https://api.themoviedb.org/3'
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/'
 const IMAGE_SIZE = 'w200'
 
-
 async function fetchPopularMovies() {
     try {
         const responseAPI = await fetch(`${apiUrl}/movie/popular?api_key=${apiKey}`)
@@ -53,6 +52,8 @@ function criarContainerAvalicaoFavorito(filme) {
     }
 
     spanFavorito.addEventListener('click', () => {
+        const favorites = loadFavorites() // Carrega novamente a lista dos ids dos favoritos para não sobrescrever os favoritos já existentes
+
         if (iFavorito.classList.contains('bi-heart')) {
             iFavorito.classList.remove('bi-heart')
             iFavorito.classList.add('bi-heart-fill')
@@ -151,11 +152,10 @@ inputSearch.addEventListener('input', debounce(() => {
     })
 }, 200)) // milisegundos do setinterval
 
-
 // FUNCIONALIDADE DE MOSTRAR APENAS FAVORITOS
 const btnMostrarApenasFavoritos = document.querySelector('#favoritos')
 
-btnMostrarApenasFavoritos.addEventListener('input', () => {
+btnMostrarApenasFavoritos.addEventListener('change', () => {
     const filmes = document.querySelectorAll('.lista__filme-item')
 
     if (btnMostrarApenasFavoritos.checked) {
