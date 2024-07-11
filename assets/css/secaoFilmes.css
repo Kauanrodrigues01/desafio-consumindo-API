@@ -34,6 +34,8 @@
 
 .filme-imagem{
     border-radius: 50%;
+    min-width: 140px;
+    height: 140px;
 }
 
 .filme__container-info{
@@ -42,6 +44,7 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    max-width: 170px;
 }
 
 .container__avaliacao-favoritos{
@@ -62,6 +65,7 @@
     display: flex;
     align-items: center;
     gap: 7px;
+    cursor: pointer;
 }
 
 .filme-descricao{

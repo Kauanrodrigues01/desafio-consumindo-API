@@ -78,10 +78,12 @@ html, body{
     width: 15px;
     height: 15px;
     position: relative;
+    cursor: pointer;
 }
 
 .text-favoritos{
     color: var(--color-titulo);
     font-family: var(--font-principal);
     font-weight: 600;
+    cursor: pointer;
 }
