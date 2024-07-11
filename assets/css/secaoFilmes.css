@@ -59,6 +59,7 @@
 
 .bi-heart, .bi-heart-fill{
     color: #BA0707;
+    cursor: pointer;
 }
 
 .filme-avaliacao, .filme-favorito{

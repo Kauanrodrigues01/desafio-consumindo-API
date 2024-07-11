@@ -1,7 +1,7 @@
 const apiKey = 'fa301c088cb970fc7b6370a1a421cd99'
 const apiUrl = 'https://api.themoviedb.org/3'
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
-const IMAGE_SIZE = 'w500';
+const IMAGE_SIZE = 'w200';
 
 // Função para buscar filmes populares
 async function fetchPopularMovies() {
@@ -19,36 +19,118 @@ async function fetchPopularMovies() {
     }
 }
 
-fetchPopularMovies()
+function saveFavorites(favorites){
+    localStorage.setItem('favorites', JSON.stringify(favorites))
+}
+
+function loadFavorites(){
+    const favorites = localStorage.getItem('favorites')
+    return favorites ? JSON.parse(favorites) : []
+}
+
+function criarContainerAvalicaoFavorito(filme) {
+    const containerAvalicaoFavorito = document.createElement('div')
+    containerAvalicaoFavorito.classList.add('container__avaliacao-favoritos')
+
+    const spanAvaliacao = document.createElement('span')
+    spanAvaliacao.classList.add('filme-avaliacao')
+    const iAvaliacao = document.createElement('i')
+    iAvaliacao.classList.add('bi', 'bi-star-fill')
+    spanAvaliacao.appendChild(iAvaliacao)
+    spanAvaliacao.appendChild(document.createTextNode(filme.vote_average.toFixed(2)))
+
+    const spanFavorito = document.createElement('span')
+    spanFavorito.classList.add('filme-favorito')
+    const iFavorito = document.createElement('i')
+    iFavorito.classList.add('bi', 'bi-heart')
+    spanFavorito.appendChild(iFavorito)
+    spanFavorito.appendChild(document.createTextNode(" Favoritar"))
+    
+    const favorites = loadFavorites()
+    if (favorites.includes(filme.id)){
+        iFavorito.classList.remove('bi-heart')
+        iFavorito.classList.add('bi-heart-fill')
+    }
+
+    spanFavorito.addEventListener('click', () => {
+        if (iFavorito.classList.contains('bi-heart')) {
+            iFavorito.classList.remove('bi-heart')
+            iFavorito.classList.add('bi-heart-fill')
+            favorites.push(filme.id)
+        } else {
+            iFavorito.classList.remove('bi-heart-fill')
+            iFavorito.classList.add('bi-heart')
+            const index = favorites.indexOf(filme.id)
+            if (index > -1){
+                favorites.splice(index, 1)
+            }
+        }
+        saveFavorites(favorites)
+        
+    })
+
+    containerAvalicaoFavorito.appendChild(spanAvaliacao)
+    containerAvalicaoFavorito.appendChild(spanFavorito)
+    return containerAvalicaoFavorito
+}
+
+function criarFilmeContainerInfo(filme, containerAvaliacaoFavorito){
+    const containerInfo = document.createElement('div')
+    containerInfo.classList.add('filme__container-info')
+
+    const titulo = document.createElement('h2')
+    titulo.classList.add('filme-titulo')
+    titulo.textContent = filme.title
+
+    containerInfo.appendChild(titulo)
+    containerInfo.appendChild(containerAvaliacaoFavorito)
+
+    return containerInfo
+}
+
+function criarFilmeItem(filme, containerInfo) {
+    const filmeItem = document.createElement('li')
+    filmeItem.classList.add('lista__filme-item')
+
+    const imagem = document.createElement('img')
+    imagem.classList.add('filme-imagem')
+    imagem.src = `${IMAGE_BASE_URL}${IMAGE_SIZE}${filme.poster_path}`
+
+    const descricao = document.createElement('p')
+    descricao.classList.add('filme-descricao')
+    descricao.textContent = `${filme.overview}`
+
+    filmeItem.appendChild(imagem)
+    filmeItem.appendChild(containerInfo)
+    filmeItem.appendChild(descricao)
+
+    return filmeItem
+}
 
 const renderMovies = async () => {
     const filmes = await fetchPopularMovies()
     if (!filmes) return
 
-    const container = document.querySelector('.lista__filme')
-    container.innerHTML = ''
+    const containerFilmes = document.querySelector('.lista__filme')
+    containerFilmes.innerHTML = ''
 
     filmes.forEach(filme => {
-        container.innerHTML += `
-            <li class="lista__filme-item">
-                <img src="${IMAGE_BASE_URL}${IMAGE_SIZE}${filme.poster_path}" alt="" class="filme-imagem">
-                <div class="filme__container-info">
-                    <h2 class="filme-titulo">${filme.title}</h2>
-                    <div class="container__avaliacao-favoritos">
-                        <span class="filme-avaliacao">
-                            <i class="bi bi-star-fill"></i>
-                            ${filme.vote_average}
-                        </span>
-                        <span class="filme-favorito">
-                            <i class="bi bi-heart"></i>
-                            Favoritar
-                        </span>
-                    </div>
-                </div>
-                <p class="filme-descricao">${filme.overview}</p>
-            </li>
-        `
+
+        const containerAvaliacaoFavorito = criarContainerAvalicaoFavorito(filme)
+        const containerInfo = criarFilmeContainerInfo(filme, containerAvaliacaoFavorito)
+        const filmeItem = criarFilmeItem(filme, containerInfo)
+
+        containerFilmes.appendChild(filmeItem)
     })
 }
 
 renderMovies()
+
+
+// FUNCIONALIDADE DE PESQUISAR
+const filmes = document.querySelectorAll('.lista__filme-item')
+const inputSearch = document.querySelector('#search')
+
+inputSearch.addEventListener('input', () => {
+    let valorPesquisa = inputSearch.value
+})

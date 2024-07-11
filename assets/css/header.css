@@ -3,6 +3,7 @@
 :root{
     --bg-body: #17162E;
     --bg-card: #1D1C3B;
+    --bg-inputSearch: #454558;
     --color-titulo: #FFFFFF;
     --color-card: #ACACAC;
     --font-principal: 'Kumbh Sans', sans-serif;
@@ -36,14 +37,23 @@ html, body{
     position: relative;
 }
 
-#search{
+#search {
     width: 325px;
     height: 40px;
     padding: 0 1rem;
     border-radius: 8px;
-    opacity: 0.2;
-    background: #FFF;
+    background: var(--bg-inputSearch);
     color: var(--color-titulo);
+    border: none; /* Remova se desejar uma borda */
+}
+
+#search::placeholder{
+    color: var(--color-titulo);
+}
+
+#search:focus{
+    color: var(--color-titulo);
+    outline: none;
 }
 
 .search-icon {
