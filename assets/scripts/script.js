@@ -1,7 +1,15 @@
+const debounce = (func, delay) => {
+    let debounceTimer
+    return () => {
+        clearTimeout(debounceTimer)
+        debounceTimer = setTimeout(func, delay)
+    }
+}
+
 const apiKey = 'fa301c088cb970fc7b6370a1a421cd99'
 const apiUrl = 'https://api.themoviedb.org/3'
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
-const IMAGE_SIZE = 'w200';
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/'
+const IMAGE_SIZE = 'w200'
 
 // Função para buscar filmes populares
 async function fetchPopularMovies() {
@@ -19,11 +27,11 @@ async function fetchPopularMovies() {
     }
 }
 
-function saveFavorites(favorites){
+function saveFavorites(favorites) {
     localStorage.setItem('favorites', JSON.stringify(favorites))
 }
 
-function loadFavorites(){
+function loadFavorites() {
     const favorites = localStorage.getItem('favorites')
     return favorites ? JSON.parse(favorites) : []
 }
@@ -45,9 +53,9 @@ function criarContainerAvalicaoFavorito(filme) {
     iFavorito.classList.add('bi', 'bi-heart')
     spanFavorito.appendChild(iFavorito)
     spanFavorito.appendChild(document.createTextNode(" Favoritar"))
-    
+
     const favorites = loadFavorites()
-    if (favorites.includes(filme.id)){
+    if (favorites.includes(filme.id)) {
         iFavorito.classList.remove('bi-heart')
         iFavorito.classList.add('bi-heart-fill')
     }
@@ -61,12 +69,11 @@ function criarContainerAvalicaoFavorito(filme) {
             iFavorito.classList.remove('bi-heart-fill')
             iFavorito.classList.add('bi-heart')
             const index = favorites.indexOf(filme.id)
-            if (index > -1){
+            if (index > -1) {
                 favorites.splice(index, 1)
             }
         }
         saveFavorites(favorites)
-        
     })
 
     containerAvalicaoFavorito.appendChild(spanAvaliacao)
@@ -74,7 +81,7 @@ function criarContainerAvalicaoFavorito(filme) {
     return containerAvalicaoFavorito
 }
 
-function criarFilmeContainerInfo(filme, containerAvaliacaoFavorito){
+function criarFilmeContainerInfo(filme, containerAvaliacaoFavorito) {
     const containerInfo = document.createElement('div')
     containerInfo.classList.add('filme__container-info')
 
@@ -115,22 +122,31 @@ const renderMovies = async () => {
     containerFilmes.innerHTML = ''
 
     filmes.forEach(filme => {
-
         const containerAvaliacaoFavorito = criarContainerAvalicaoFavorito(filme)
         const containerInfo = criarFilmeContainerInfo(filme, containerAvaliacaoFavorito)
         const filmeItem = criarFilmeItem(filme, containerInfo)
-
         containerFilmes.appendChild(filmeItem)
     })
 }
 
+// Chama a renderização inicial dos filmes
 renderMovies()
 
-
 // FUNCIONALIDADE DE PESQUISAR
-const filmes = document.querySelectorAll('.lista__filme-item')
 const inputSearch = document.querySelector('#search')
 
-inputSearch.addEventListener('input', () => {
-    let valorPesquisa = inputSearch.value
-})
+inputSearch.addEventListener('input', debounce(() => {
+    const valorPesquisa = inputSearch.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    const filmes = document.querySelectorAll('.lista__filme-item')
+
+    filmes.forEach(filme => {
+        const titulo = filme.querySelector('.filme-titulo').textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        const descricao = filme.querySelector('.filme-descricao').textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
+        if (titulo.includes(valorPesquisa) || descricao.includes(valorPesquisa)) {
+            filme.style.display = 'flex'
+        } else {
+            filme.style.display = 'none'
+        }
+    })
+}, 300))
