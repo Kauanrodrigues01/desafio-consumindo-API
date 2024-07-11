@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+
+:root{
+    --bg-body: #17162E;
+    --bg-card: #1D1C3B;
+    --color-titulo: #FFFFFF;
+    --color-card: #ACACAC;
+    --font-principal: 'Kumbh Sans', sans-serif;
+}
+
+html, body{
+    font-family: var(--font-principal);
+    background-color: var(--bg-body);
+}
+
+.cabecalho{
+    padding: 3.5rem 2rem 0 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.cabecalho__titulo{
+    color: var(--color-titulo);
+    font-size: 1.5rem;
+    font-family: var(--font-principal);
+    font-size: 36px;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.container__pesquisa{
+    margin-top: 1rem;
+    display: inline-flex;
+    position: relative;
+}
+
+#search{
+    width: 325px;
+    height: 40px;
+    padding: 0 1rem;
+    border-radius: 8px;
+    opacity: 0.2;
+    background: #FFF;
+    color: var(--color-titulo);
+}
+
+.search-icon {
+    position: absolute;
+    color: var(--color-titulo);
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+}
+
+.search-icon img{
+    width: 17px;
+    height: 17px;
+}
+
+.container__mostrarFavoritos{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#favoritos{
+    /* appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none; */
+    background-color: transparent; 
+    border: 1px solid #ccc; 
+    border-radius: 3px;
+    width: 15px;
+    height: 15px;
+    position: relative;
+}
+
+.text-favoritos{
+    color: var(--color-titulo);
+    font-family: var(--font-principal);
+    font-weight: 600;
+}
