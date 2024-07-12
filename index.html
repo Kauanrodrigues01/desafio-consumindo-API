@@ -19,10 +19,21 @@
                 <img src="assets/img/search-icon.png" alt="icone de pesquisa" class="search-icon">
             </div>
         </form>
-        <div class="container__mostrarFavoritos">
+        <div class="container__filtrar">
+            <div class="container__filtrar-text">
+                <p class="filter-text">Filtrar por</p>
+                <img src="assets/img/arrow-vector.png" alt="icone filtro">
+            </div>
+            <ul class="menu-suspenso">
+                <li class="menu-suspenso__item menu-item-popcorn" id="MostrarTodos">Mostrar todos</li>
+                <li class="menu-suspenso__item menu-item-favoritos" id="favoritos">Favoritos</li>
+                <li class="menu-suspenso__item menu-item-avaliacao" id="avaliacao">Avaliaçao</li>
+            </ul>
+        </div>
+        <!-- <div class="container__mostrarFavoritos">
             <input type="checkbox" name="favoritos" id="favoritos">
             <label for="favoritos" class="text-favoritos">Mostrar apenas favoritos</label>
-        </div>
+        </div> -->
     </header>
 
     <main>
@@ -30,5 +41,6 @@
     </main>
 
     <script src="assets/scripts/script.js"></script>
+    <script src="assets/scripts/menuSuspenso.js"></script>
 </body>
 </html>

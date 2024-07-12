@@ -107,14 +107,22 @@ function criarFilmeItem(filme, containerInfo) {
     return filmeItem
 }
 
-const renderMovies = async () => {
+// função para ordenar filmes por avaliação
+function sortMoviesByRating(movies) {
+    return movies.sort((a, b) => b.vote_average - a.vote_average)
+}
+
+const renderMovies = async (sortedMovies = false) => {
     const filmes = await fetchPopularMovies()
     if (!filmes) return
+
+    // Se sortedMovies for true, ordena os filmes por avaliação
+    const filmesParaRenderizar = sortedMovies ? sortMoviesByRating(filmes) : filmes
 
     const containerFilmes = document.querySelector('.lista__filme')
     containerFilmes.innerHTML = ''
 
-    filmes.forEach(filme => {
+    filmesParaRenderizar.forEach(filme => {
         const containerAvaliacaoFavorito = criarContainerAvalicaoFavorito(filme)
         const containerInfo = criarFilmeContainerInfo(filme, containerAvaliacaoFavorito)
         const filmeItem = criarFilmeItem(filme, containerInfo)
@@ -152,23 +160,34 @@ inputSearch.addEventListener('input', debounce(() => {
     })
 }, 200)) // milisegundos do setinterval
 
-// FUNCIONALIDADE DE MOSTRAR APENAS FAVORITOS
-const btnMostrarApenasFavoritos = document.querySelector('#favoritos')
 
-btnMostrarApenasFavoritos.addEventListener('input', () => {
+// FUNCIONALIDADE DE MOSTRAR TODOS OS FILMES
+const filtrarMostrarTodos = document.querySelector('#MostrarTodos')
+
+filtrarMostrarTodos.addEventListener('click', async () => {
+    await renderMovies(false) // Renderiza os filmes sem ordenação
+})
+
+// FUNCIONALIDADE DE MOSTRAR APENAS FAVORITOS
+const filtrarFavoritos = document.querySelector('#favoritos')
+
+filtrarFavoritos.addEventListener('click', () => {
     const filmes = document.querySelectorAll('.lista__filme-item')
 
     filmes.forEach(filme => {
-        // debugger
         const spanFavorito = filme.querySelector('.filme-favorito')
-        if (btnMostrarApenasFavoritos.checked) {
-            if (spanFavorito.querySelector('i').classList.contains('bi-heart-fill')) {
-                filme.style.display = 'flex'
-            } else {
-                filme.style.display = 'none'
-            }
-        } else {
+        if (spanFavorito.querySelector('i').classList.contains('bi-heart-fill')) {
             filme.style.display = 'flex'
+        } else {
+            filme.style.display = 'none'
         }
     })
+})
+
+
+// FUNCIONALIDADE DE MOSTRAR APENAS FAVORITOS
+const filtrarAvaliacao = document.querySelector('#avaliacao')
+
+filtrarAvaliacao.addEventListener('click', async () => {
+    await renderMovies(true) // Renderiza os filmes ordenados por avaliação
 })

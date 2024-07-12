@@ -72,26 +72,98 @@ html, body{
     height: 17px;
 }
 
-.container__mostrarFavoritos{
+.container__filtrar{
     margin-top: 1rem;
+    position: relative;
+}
+
+.container__filtrar-text{
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-#favoritos{
-    background-color: transparent; 
-    border: 1px solid #ccc; 
-    border-radius: 3px;
-    width: 15px;
-    height: 15px;
-    position: relative;
     cursor: pointer;
 }
 
-.text-favoritos{
+.filter-text{
     color: var(--color-titulo);
     font-family: var(--font-principal);
     font-weight: 600;
+}
+
+.menu-suspenso{
+    position: absolute;
+    top: 150%;
+    background-color: var(--color-titulo);
+    left: 0;
+    z-index: 1;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.menu-suspenso__item{
+    padding: 15px 30px;
+    color: var(--bg-body);
+    font-family: var(--font-principal);
+    font-weight: 600;
+    width: 100%;
     cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+
+    transition: all 0.3s ease-in-out;
+}
+
+/* Estilização icones de avaliação */
+.menu-item-favoritos::before{
+    content: '';
+    position: absolute;
+    top: 52%;
+    left: 2px;
+    transform: translateY(-35%);
+    background: url(../img/heart-vector.png) no-repeat;
+    padding: 0px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-item-favoritos:hover::before{
+    padding: 15px 20px;
+}
+
+/* Estilização icones de favoritos */
+.menu-item-avaliacao::before{
+    content: '';
+    position: absolute;
+    top: 48%;
+    left: 2px;
+    transform: translateY(-35%);
+    background: url(../img/star-vector.png) no-repeat;
+    padding: 0px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-item-avaliacao:hover::before{
+    padding: 15px;
+}
+
+/* Estilização icones de favoritos */
+.menu-item-popcorn::before{
+    content: '';
+    position: absolute;
+    top: 48%;
+    left: 2px;
+    transform: translateY(-35%);
+    background: url(../img/emojione_popcorn.png) no-repeat;
+    padding: 0px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-item-popcorn:hover::before{
+    padding: 15px;
 }
